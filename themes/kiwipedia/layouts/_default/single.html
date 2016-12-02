@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+    
+    {{ partial "header.html" . }}
+
+    <body lang="en">
+
+        {{ partial "navbar.html" . }}
+
+        <h2 id="title">{{ .Title }}</h2>
+        
+        <article id="content">
+           {{ .Content }}
+        </article>
+
+        {{ partial "footer.html" . }}
+
+    </body>
+</html>
