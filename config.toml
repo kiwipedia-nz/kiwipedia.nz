@@ -1,3 +1,7 @@
 baseurl = "http://kiwipedia.nz/"
 title = "Kiwipedia"
 languageCode = "en-nz"
+theme = "kiwipedia"
+
+[permalinks]
+  blog = "/blog/:year/:month/:title/"
