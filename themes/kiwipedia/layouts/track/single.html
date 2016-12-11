@@ -25,12 +25,11 @@
         {{ partial "footer.html" . }}
 
         {{ if isset .Aliases 0 }} 
-            <script src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script src="/js/track-store.js"></script>
             <script src="/js/track-map.js"></script>
             <script src="/js/track-elevation.js"></script>
             <script lang="javascript">
-                google.load('visualization', '1', {packages: ['columnchart']});
                 var trackId = '{{ range first 1 .Aliases }}{{ substr . 1 }}{{ end }}';
                 riot.mount('track-map', { 'trackId' : trackId });
                 riot.mount('track-elevation', { 'trackId' : trackId });

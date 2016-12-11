@@ -4,9 +4,11 @@
 
 	<script>
   	var trackId = opts.trackId;
+  	var marker = null;
+		var trackMap = null;
 
   	drawMap = function(trackLocation) {
-	  	var trackMap = L.map('track-map');
+	  	trackMap = L.map('track-map');
 	    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZHJvaWQiLCJhIjoiUGtmUjhPayJ9.ipo2p3WLD-uTan1QFYyX7g', {
 	      maxZoom: 18,
 	      id: 'mapbox.streets'
@@ -29,11 +31,22 @@
     		}
     	});
 	    feature.addTo(trackMap);
-	    trackMap.fitBounds(feature.getBounds().pad(0.5));
+	    trackMap.fitBounds(feature.getBounds().pad(0));
   	};
 
   	RiotControl.on('track-location-updated-' + trackId, drawMap);
   	RiotControl.trigger('track-location-required', trackId);
+
+  	RiotControl.on('track-show-marker-' + trackId, function(point) {
+  		if (trackMap && point) {
+  			marker = L.marker([point.lat, point.lng]);
+  			marker.addTo(trackMap)
+  		}
+  	});
+
+  	RiotControl.on('track-remove-markers-' + trackId, function() {
+  		marker.remove(marker);
+  	});
 
   </script>
 
