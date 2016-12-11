@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+    
+    {{ partial "header.html" . }}
+
+    <body lang="en">
+
+        {{ partial "navbar.html" . }}
+
+        <h2 id="title">{{ .Title }}</h2>
+        
+        <article id="content">
+            <div class="columns">
+                <div class="column">
+                    {{ .Content }}
+                </div>
+                <div class="column">
+                    <track-map></track-map>
+                    <track-elevation></track-elevation>
+                </div>
+        </article>
+
+				
+
+        {{ partial "footer.html" . }}
+
+        {{ if isset .Aliases 0 }} 
+            <script src="https://www.google.com/jsapi"></script>
+            <script src="/js/track-store.js"></script>
+            <script src="/js/track-map.js"></script>
+            <script src="/js/track-elevation.js"></script>
+            <script lang="javascript">
+                google.load('visualization', '1', {packages: ['columnchart']});
+                var trackId = '{{ range first 1 .Aliases }}{{ substr . 1 }}{{ end }}';
+                riot.mount('track-map', { 'trackId' : trackId });
+                riot.mount('track-elevation', { 'trackId' : trackId });
+            </script>
+        {{ end}}
+        
+    </body>
+</html>
