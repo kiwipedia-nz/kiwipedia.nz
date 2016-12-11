@@ -35,13 +35,17 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 
   	RiotControl.on('track-show-marker-' + trackId, function(point) {
   		if (trackMap && point) {
-  			marker = L.marker([point.lat, point.lng]);
-  			marker.addTo(trackMap)
+  			if (marker == null) {
+  				marker = L.marker([point.lat, point.lng]);
+  				marker.addTo(trackMap);
+  			} else {
+  				marker.setLatLng([point.lat, point.lng]);
+  			}
   		}
   	});
 
   	RiotControl.on('track-remove-markers-' + trackId, function() {
-  		marker.remove(marker);
+
   	});
 
 });

@@ -27,6 +27,7 @@ riot.tag2('track-elevation', '<div id="track-elevation"></div>', 'track-elevatio
         chart.draw(data, {
           height: 150,
           legend: 'none',
+          focusTarget: 'category',
           titleY: 'Elevation (m)'
         });
       }

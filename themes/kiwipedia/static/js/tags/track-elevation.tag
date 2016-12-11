@@ -32,6 +32,7 @@
         chart.draw(data, {
           height: 150,
           legend: 'none',
+          focusTarget: 'category',
           titleY: 'Elevation (m)'
         });
       }
