@@ -2,6 +2,5 @@
 duration = ""
 grade = ""
 popularity = ""
-slug = ""
-aliases = [""]
+aliases = 
 +++

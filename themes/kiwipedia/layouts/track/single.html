@@ -15,6 +15,7 @@
                     {{ .Content }}
                 </div>
                 <div class="column">
+                    <track-info></track-info>
                     <track-map></track-map>
                     <track-elevation></track-elevation>
                 </div>
@@ -27,10 +28,12 @@
         {{ if isset .Aliases 0 }} 
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script src="/js/track-store.js"></script>
+            <script src="/js/track-info.js"></script>
             <script src="/js/track-map.js"></script>
             <script src="/js/track-elevation.js"></script>
             <script lang="javascript">
                 var trackId = '{{ range first 1 .Aliases }}{{ substr . 1 }}{{ end }}';
+                riot.mount('track-info', { 'trackId' : trackId });
                 riot.mount('track-map', { 'trackId' : trackId });
                 riot.mount('track-elevation', { 'trackId' : trackId });
             </script>
