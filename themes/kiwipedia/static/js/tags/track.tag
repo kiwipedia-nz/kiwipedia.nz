@@ -1,6 +1,6 @@
 <track>
 
-	<input type="checkbox" checked={ reversed } onclick={ reverse }> { reversed ? 'Reversed' : 'Recommended' }
+	 { reversed ? 'Reversed' : 'Recommended' } track direction <input value="reverse" type="button" onclick={ reverse }>
 
 	<track-info trackId="{ trackId }"></track-info>
 
@@ -30,9 +30,8 @@
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 
-			console.log("switch");
 			refresh();
-			return false;
+			this.reversed = !this.reversed;
 		}
 
 		addTrackId = function(trackId) {

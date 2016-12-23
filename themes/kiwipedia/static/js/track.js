@@ -1,4 +1,4 @@
-riot.tag2('track', '<input type="checkbox" checked="{reversed}" onclick="{reverse}"> {reversed ? \'Reversed\' : \'Recommended\'} <track-info trackid="{trackId}"></track-info><track-map trackid="{trackId}"></track-map><track-elevation trackid="{trackId}"></track-elevation>', '', '', function(opts) {
+riot.tag2('track', '{reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"><track-info trackid="{trackId}"></track-info><track-map trackid="{trackId}"></track-map><track-elevation trackid="{trackId}"></track-elevation>', '', '', function(opts) {
 		var self = this;
 		self.tracks = {
 			ids: [],
@@ -20,9 +20,8 @@ riot.tag2('track', '<input type="checkbox" checked="{reversed}" onclick="{revers
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 
-			console.log("switch");
 			refresh();
-			return false;
+			this.reversed = !this.reversed;
 		}
 
 		addTrackId = function(trackId) {

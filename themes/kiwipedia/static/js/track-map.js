@@ -3,7 +3,11 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
     self.map = null;
 
     this.init = function() {
+			if (self.map) {
+				self.map.remove();
+			}
       self.marker = null;
+      self.map = null;
 			self.trackLocations = {
 				ids: [],
 				data: {}
