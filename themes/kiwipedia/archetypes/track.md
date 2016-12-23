@@ -2,5 +2,5 @@
 duration = ""
 grade = ""
 popularity = ""
-aliases = 
+aliases = []
 +++

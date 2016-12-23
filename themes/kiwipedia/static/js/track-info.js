@@ -1,13 +1,19 @@
-riot.tag2('track-info', '<div if="{info}"> distance: {info.distance} </div>', '', '', function(opts) {
+riot.tag2('track-info', '<div if="{infos.data}"><div each="{info in infos.data}"> distance: {info.distance} </div></div>', '', '', function(opts) {
   	var self = this;
-    self.trackId = opts.trackId;
-    self.info = null;
+    self.infos = {
+      ids: [],
+      data: {}
+    }
 
-  	RiotControl.on('track-info-updated-' + trackId, function(trackInfo) {
-      self.info = trackInfo;
-      self.update();
-    });
+    this.addTrackInfo = function(trackInfo) {
+      self.infos.ids.push(trackInfo.trackId);
+      self.infos.data[trackInfo.trackId] = trackInfo;
+    }
 
-  	RiotControl.trigger('track-info-required', trackId);
+    this.addTrackInfos = function(trackInfos) {
+      for (var i = 0; i < trackInfos.length; i++) {
+        self.addTrackInfo(trackInfos[i]);
+      }
+    }
 
 });

@@ -4,40 +4,23 @@ function TrackStore() {
     var self = this;
     riot.observable(self);
 
-    self.getLocation = function(trackId) {
-        ajax.get('http://api-kiwipedia-nz.appspot.com/track/' + trackId + '/location', function (response) {
+    self.getTrack = function(trackId, trackParams) {
+        var urlParams = "";
+        if (trackParams) {
+            urlParams += "?";
+            urlParams += trackParams.reverse ? "reverse=true" : "";
+            urlParams += trackParams.start ? "&start=" + trackParams.start : "";
+            urlParams += trackParams.end ? "&end=" + trackParams.end : "";
+        }
+        ajax.get('http://localhost:8080/track/' + trackId + urlParams, function (response) {
             if (response) {
-                self.trigger('track-location-updated-' + trackId, response);
+                self.trigger('track-updated-' + trackId, response);
             }
         });
     }
 
-    self.getElevation = function(trackId) {
-        ajax.get('http://api-kiwipedia-nz.appspot.com/track/' + trackId + '/elevation', function (response) {
-            if (response) {
-                self.trigger('track-elevation-updated-' + trackId, response);
-            }
-        });
-    }
-
-    self.getInfo = function(trackId) {
-        ajax.get('http://api-kiwipedia-nz.appspot.com/track/' + trackId + '/info', function (response) {
-            if (response) {
-                self.trigger('track-info-updated-' + trackId, response);
-            }
-        });
-    }
-
-    self.on('track-location-required', function (trackId) {
-        self.getLocation(trackId);
-    });
-
-    self.on('track-elevation-required', function (trackId) {
-        self.getElevation(trackId);
-    });
-
-    self.on('track-info-required', function (trackId) {
-        self.getInfo(trackId);
+    self.on('track-required', function (trackId, trackParams) {
+        self.getTrack(trackId, trackParams);
     });
 
 };
