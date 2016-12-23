@@ -12,7 +12,7 @@ function TrackStore() {
             urlParams += trackParams.start ? "&start=" + trackParams.start : "";
             urlParams += trackParams.end ? "&end=" + trackParams.end : "";
         }
-        ajax.get('http://localhost:8080/track/' + trackId + urlParams, function (response) {
+        ajax.get('http://api-kiwipedia-nz.appspot.com/track/' + trackId + urlParams, function (response) {
             if (response) {
                 self.trigger('track-updated-' + trackId, response);
             }
