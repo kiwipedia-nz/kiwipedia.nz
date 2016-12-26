@@ -1,4 +1,4 @@
-riot.tag2('track', '{reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"><track-info trackid="{trackId}"></track-info><track-map trackid="{trackId}"></track-map><track-elevation trackid="{trackId}"></track-elevation>', '', '', function(opts) {
+riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"></div><track-info trackid="{trackId}"></track-info><track-map trackid="{trackId}"></track-map><track-elevation trackid="{trackId}"></track-elevation>', '', '', function(opts) {
 		var self = this;
 		self.tracks = {
 			ids: [],
@@ -7,6 +7,7 @@ riot.tag2('track', '{reversed ? \'Reversed\' : \'Recommended\'} track direction 
 			size: 0
 		}
 
+		canReverse = true;
 		reversed = false;
 		reverse = function() {
 			self.tracks.ids.reverse();
@@ -14,13 +15,14 @@ riot.tag2('track', '{reversed ? \'Reversed\' : \'Recommended\'} track direction 
 			self.tracks.data = {};
 			for (var i = 0; i < self.tracks.ids.length; i++) {
 				self.tracks.params[i].reverse = !self.tracks.params[i].reverse;
+
 			}
 			self.tracks.size = 0;
 
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 
-			refresh();
+		refresh();
 			this.reversed = !this.reversed;
 		}
 
@@ -34,6 +36,7 @@ riot.tag2('track', '{reversed ? \'Reversed\' : \'Recommended\'} track direction 
 				}
 			}
 			if (tokens.length > 2) {
+					this.canReverse = false;
 					sub = tokens[2].split("-");
 					params.start = sub[0];
 					if (sub[1]) params.end = sub[1];

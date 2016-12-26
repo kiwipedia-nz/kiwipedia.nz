@@ -1,7 +1,9 @@
 <track>
 
-	 { reversed ? 'Reversed' : 'Recommended' } track direction <input value="reverse" type="button" onclick={ reverse }>
-
+	<div if={ canReverse }>
+		{ reversed ? 'Reversed' : 'Recommended' } track direction <input value="reverse" type="button" onclick={ reverse }>
+	</div>
+	
 	<track-info trackId="{ trackId }"></track-info>
 
 	<track-map trackId="{ trackId }"></track-map>
@@ -17,6 +19,7 @@
 			size: 0
 		}
 
+		canReverse = true;
 		reversed = false;
 		reverse = function() {
 			self.tracks.ids.reverse();
@@ -24,13 +27,16 @@
 			self.tracks.data = {};
 			for (var i = 0; i < self.tracks.ids.length; i++) {
 				self.tracks.params[i].reverse = !self.tracks.params[i].reverse;
+				// var start = self.tracks.params[i].start;
+				// self.tracks.params[i].start = self.tracks.params[i].end;
+				// self.tracks.params[i].end = start;
 			}
 			self.tracks.size = 0;
 			// self.tags['track-info'].addTrackInfos(trackInfos);
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
-
-			refresh();
+	
+		refresh();
 			this.reversed = !this.reversed;
 		}
 
@@ -44,6 +50,7 @@
 				}
 			}
 			if (tokens.length > 2) {
+					this.canReverse = false;
 					sub = tokens[2].split("-");
 					params.start = sub[0];
 					if (sub[1]) params.end = sub[1];
