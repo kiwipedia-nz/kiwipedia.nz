@@ -1,6 +1,7 @@
 +++
 title = "fairy falls to goodfellow to old coach loop"
 popularity = ""
+region = "auckland"
 tracks = ["fairy-falls-track||0-62.5", "goodfellow-track", "old-coach-road-track|r|56-100"]
 duration = ""
 grade = ""

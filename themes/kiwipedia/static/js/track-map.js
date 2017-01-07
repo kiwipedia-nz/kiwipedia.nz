@@ -1,4 +1,4 @@
-riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data-is="track-map"] #track-map{ height: 400px; }', '', function(opts) {
+riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data-is="track-map"] #track-map{ height: 300px; }', '', function(opts) {
 		var self = this;
     self.map = null;
 

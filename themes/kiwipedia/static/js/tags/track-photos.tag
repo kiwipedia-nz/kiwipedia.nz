@@ -1,57 +1,117 @@
 <track-photos>
 
-	<ul each={ photo in photos }>
-		<li><img src="{ photo.thumbUrl }">
-	</ul>
+	<figure each={ photo in preview } class="column image is-128x128 is-4">
+		<img src="{ photo.url }=c-w165">
+	</figure>
 
-	<img src="https://lh3.googleusercontent.com/-LD-VX6DSBbc/WGNnWAVHlII/AAAAAAAAACY/TWY8WtJz6Z4k2RTvcUKzY6sZoMFaVp7zQCHM/s180/2016-10-18%2B17.16.28.jpg">
 	<script>
-		console.log('kurva');
 		var self = this;
+		self.region = '';
 		self.tracks = [];
 		self.photos = [];
+		self.preview = [];
 
-		addTrackId = function(trackId) {
+		/**
+		* Crazy logic to create randomized preview list where each track has the same count of pictures
+		* and they are all sorted too.
+		**/
+		this.createPreview = function(trackPhotos) {
+			if (!trackPhotos.photos) {
+				return;
+			}
+
+			var numberOfPreviewImages = 6;
+			var calculatedNumberOfPreviewImages = numberOfPreviewImages;
+
+			for (var i = 0; i < self.tracks.length; i++) {
+				if (self.tracks[i].id != trackPhotos.trackId && self.tracks[i].count > 0) {
+					calculatedNumberOfPreviewImages = Math.ceil(numberOfPreviewImages / 2);
+				}
+			}
+
+			self.preview.splice(0, calculatedNumberOfPreviewImages);
+
+			var hit = {};
+			var photos = trackPhotos.photos;
+			var i = 0;
+
+			while (i < calculatedNumberOfPreviewImages && i < photos.length) {
+				var index = photos.length > calculatedNumberOfPreviewImages ? -1 : i;
+				if (index < 0) {
+					index = Math.floor(Math.random() * photos.length);
+					if (hit[index]) {
+						continue;
+					}
+					hit[index] = true;
+				}
+				self.preview.push(photos[index]);
+				i++;
+			}
+		}
+
+		this.addTrackId = function(trackId) {
+			if (trackId.indexOf('|') > 0) {
+				trackId = trackId.substring(0, trackId.indexOf('|'));
+			}
 			self.tracks.push({ id: trackId });
 		};
 
 		if (opts.trackId) {
-			addTrackId(opts.trackId);
+			self.addTrackId(opts.trackId);
 		}
-		if (opts.tracks) {
-			for (var i = 0; i < opts.tracks.length; i++) {
-				addTrackId(opts.tracks[i]);
+		if (opts.trackIds) {
+			for (var i = 0; i < opts.trackIds.length; i++) {
+				self.addTrackId(opts.trackIds[i]);
 			}
 		}
+		if (opts.region) {
+			self.region = opts.region;
+		}
 
-		onTrackPhotosUpdated = function(trackId, photos) {
+		this.onTrackPhotosUpdated = function(trackPhotos) {
 			var index = 0;
 			for (var i = 0; i < self.tracks.length; i++) {
 				var track = self.tracks[i];
-				if (track.id == trackId) {
+				if (track.id == trackPhotos.trackId) {
+					if (!trackPhotos.photos) {
+						continue;
+					}
+					var photos = trackPhotos.photos;
 					track.count = photos.length;
 					for (var x = 0; x < photos.length; x++) {
 						var photo = photos[x];
-						photo.trackId = trackId;
+						photo.trackId = trackPhotos.trackId;
 						self.photos.splice(index + x, 0, photo);
 					}
-					self.update();
 				} else {
 					index += (track.count ? track.count : 0);
 				}
 			}
+			self.createPreview(trackPhotos);
+			self.update();
 		};
 
-		refresh = function() {
+		this.refresh = function() {
 			for (var i =0; i < self.tracks.length; i++) {
 		  	var trackId = self.tracks[i].id;
-		  	RiotControl.one('track-photos-updated-' + trackId, onTrackPhotosUpdated);
-	  		RiotControl.trigger('track-photos-required', trackId, 1600, 180);
+		  	RiotControl.one('track-photos-updated-' + trackId, self.onTrackPhotosUpdated);
+	  		RiotControl.trigger('track-photos-required', self.region, trackId);
 	  	}  	
 		}
 
-		refresh();
+		self.refresh();
 
 	</script>
 
+	<style type="text/css">
+		ul {
+			padding-right: 5px;
+		}
+		li {
+			float: right;
+			margin: 0 2px;
+			padding: 0;
+		}
+
+	</style>
 </track-photos>

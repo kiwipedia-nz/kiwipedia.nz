@@ -91,7 +91,7 @@
 
   <style>
   	#track-map {
-    	height: 400px;
+    	height: 300px;
 		}
   </style>
 </track-map>

@@ -1,4 +1,4 @@
-riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"></div><track-info></track-info><track-map></track-map><track-elevation></track-elevation>', '', '', function(opts) {
+riot.tag2('track', '<track-map></track-map><track-elevation></track-elevation><track-info></track-info><div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"></div>', '', '', function(opts) {
 		var self = this;
 		self.tracks = {
 			ids: [],
@@ -22,11 +22,11 @@ riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recomme
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 
-		refresh();
+		  self.refresh();
 			this.reversed = !this.reversed;
 		}
 
-		addTrackId = function(trackId) {
+		this.addTrackId = function(trackId) {
 			var tokens = trackId.split("|");
 			self.tracks.ids.push(tokens[0]);
 			var params = {}
@@ -45,15 +45,15 @@ riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recomme
 		};
 
 		if (opts.trackId) {
-			addTrackId(opts.trackId);
+			self.addTrackId(opts.trackId);
 		}
 		if (opts.trackIds) {
 			for (var i = 0; i < opts.trackIds.length; i++) {
-				addTrackId(opts.trackIds[i]);
+				self.addTrackId(opts.trackIds[i]);
 			}
 		}
 
-		onTrackUpdated = function(track) {
+		this.onTrackUpdated = function(track) {
 			self.tracks.data[track.trackId] = track;
 			self.tracks.size++;
 
@@ -65,7 +65,7 @@ riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recomme
 					trackElevations.push(self.tracks.data[self.tracks.ids[i]].elevation);
 				}
 				if (trackElevations.length > 1) {
-					reduceTracksElevations(trackInfos, trackElevations);
+					self.reduceTracksElevations(trackInfos, trackElevations);
 				}
 				self.tags['track-info'].addTrackInfos(trackInfos);
 				self.tags['track-map'].addTrackLocations(trackLocations);
@@ -74,17 +74,17 @@ riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recomme
 			}
 		};
 
-		reduceTracksElevations = function(trackInfos, trackElevations) {
+		this.reduceTracksElevations = function(trackInfos, trackElevations) {
 			var total = 0;
 			for (var i = 0; i < trackInfos.length; i++) {
 				total += trackInfos[i].distance;
 			}
 			for (var i = 0; i < trackInfos.length; i++) {
-				trackElevations[i].points = reduceTrackElevations(trackElevations[i].points, trackInfos[i].distance / total);
+				trackElevations[i].points = self.reduceTrackElevations(trackElevations[i].points, trackInfos[i].distance / total);
 			}
 		};
 
-		reduceTrackElevations = function(trackElevations, ratio) {
+		this.reduceTrackElevations = function(trackElevations, ratio) {
 			var reduce = [];
 			reduce.push(trackElevations[0]);
 			for (var i = 1; i < trackElevations.length; i++) {
@@ -95,13 +95,13 @@ riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recomme
 			return reduce;
 		};
 
-		refresh = function() {
+		this.refresh = function() {
 			for (var i =0; i < self.tracks.ids.length; i++) {
-		  	RiotControl.one('track-updated-' + self.tracks.ids[i], onTrackUpdated);
+		  	RiotControl.one('track-updated-' + self.tracks.ids[i], self.onTrackUpdated);
 	  		RiotControl.trigger('track-required', self.tracks.ids[i], self.tracks.params[i]);
 	  	}
 		}
 
-		refresh();
+		self.refresh();
 
 });

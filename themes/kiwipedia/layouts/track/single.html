@@ -7,20 +7,20 @@
 
         {{ partial "navbar.html" . }}
 
-        <h2 id="title">{{ .Title }}</h2>
-        
-        <article id="content">
-            <div class="columns">
-                <div class="column">
+        <div class="columns is-gapless">
+            <div class="column">
+                <div class="section">
+                    <h1 class="title">{{ .Title }}</h1>
                     {{ .Content }}
                 </div>
-                <div class="column">
-                    <track></track>
-                    <track-photos></track-photos>
-                </div>
-        </article>
-
-				
+            </div>
+            <div class="column is-one-quarter">
+                <track-photos class="columns is-mobile is-gapless"></track-photos>
+            </div>
+            <div class="column is-one-third">
+                <track></track>
+            </div>
+        </div>
 
         {{ partial "footer.html" . }}
 
