@@ -4,11 +4,11 @@
 		{ reversed ? 'Reversed' : 'Recommended' } track direction <input value="reverse" type="button" onclick={ reverse }>
 	</div>
 	
-	<track-info trackId="{ trackId }"></track-info>
+	<track-info></track-info>
 
-	<track-map trackId="{ trackId }"></track-map>
+	<track-map></track-map>
 
-	<track-elevation trackId="{ trackId }"></track-elevation>
+	<track-elevation></track-elevation>
 
 	<script>
 		var self = this;

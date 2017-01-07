@@ -1,4 +1,4 @@
-riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"></div><track-info trackid="{trackId}"></track-info><track-map trackid="{trackId}"></track-map><track-elevation trackid="{trackId}"></track-elevation>', '', '', function(opts) {
+riot.tag2('track', '<div if="{canReverse}"> {reversed ? \'Reversed\' : \'Recommended\'} track direction <input value="reverse" type="button" onclick="{reverse}"></div><track-info></track-info><track-map></track-map><track-elevation></track-elevation>', '', '', function(opts) {
 		var self = this;
 		self.tracks = {
 			ids: [],

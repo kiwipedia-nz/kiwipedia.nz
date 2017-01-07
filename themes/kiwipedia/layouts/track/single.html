@@ -16,6 +16,7 @@
                 </div>
                 <div class="column">
                     <track></track>
+                    <track-photos></track-photos>
                 </div>
         </article>
 
@@ -30,15 +31,20 @@
             <script src="/js/track-info.js"></script>
             <script src="/js/track-map.js"></script>
             <script src="/js/track-elevation.js"></script>
+            <script src="/js/photo-store.js"></script>
+            <script src="/js/track-photos.js"></script>
             <script lang="javascript">
-                
+                var trackParams = {};
+                {{ if isset .Params "region" }}
+                    trackParams['region'] = {{ .Params.region }}
+                {{ end}}
                 {{ if isset .Params "tracks" }}
-                    var trackIds = {{ .Params.tracks }};
-                    riot.mount('track', { 'trackIds' : trackIds });
+                    trackParams['trackIds'] = {{ .Params.tracks }};
                 {{ else }}
-                    var trackId = '{{ range first 1 .Aliases }}{{ substr . 1 }}{{ end }}';
-                    riot.mount('track', { 'trackId' : trackId });
+                    trackParams['trackId'] = '{{ range first 1 .Aliases }}{{ substr . 1 }}{{ end }}';
                 {{ end }}
+                riot.mount('track', trackParams);
+                riot.mount('track-photos', trackParams);
             </script>
         {{ end}}
         
