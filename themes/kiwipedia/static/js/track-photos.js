@@ -1,9 +1,21 @@
-riot.tag2('track-photos', '<figure each="{photo in preview}" class="column image is-128x128 is-4"><img riot-src="{photo.url}=c-w165"></figure>', 'track-photos ul,[data-is="track-photos"] ul{ padding-right: 5px; } track-photos li,[data-is="track-photos"] li{ float: right; margin: 0 2px; padding: 0; }', '', function(opts) {
+riot.tag2('track-photos', '<div if="{photos && photos.length > 0}"><div><button type="button" class="btn btn-sm pull-right" aria-label="Left Align"><i class="fa fa-th"></i></button><h4>Show all {photos.length} photos</h4></div><div class="row no-gutters pull-right"><div each="{photo in preview}" class="col-6"><img riot-src="{photo.url}=c-w165" class="img-fluid"></div></div></div><div if="{hasNoPhotos()}"><h4>No photos available</h4> Maybe you would like to add some of yours? <button type="button" class="btn upload" aria-label="Left Align"> Upload photos <i class="fa fa-cloud-upload"></i></button></div>', 'track-photos,[data-is="track-photos"]{ padding-top: 0.5rem; display: block; } track-photos img,[data-is="track-photos"] img{ padding-bottom: 4px; } track-photos .upload,[data-is="track-photos"] .upload{ margin-top: 10px; }', '', function(opts) {
 		var self = this;
 		self.region = '';
 		self.tracks = [];
 		self.photos = [];
 		self.preview = [];
+
+		this.hasNoPhotos = function() {
+			if (self.photos.length > 0) {
+				return false;
+			}
+			for (var i = 0; i < self.tracks.length; i++) {
+				if (self.tracks[i].count === undefined) {
+					return false;
+				}
+			}
+			return true;
+		}
 
 		this.createPreview = function(trackPhotos) {
 			if (!trackPhotos.photos) {
@@ -63,11 +75,11 @@ riot.tag2('track-photos', '<figure each="{photo in preview}" class="column image
 			for (var i = 0; i < self.tracks.length; i++) {
 				var track = self.tracks[i];
 				if (track.id == trackPhotos.trackId) {
-					if (!trackPhotos.photos) {
+					var photos = trackPhotos.photos;
+					track.count = photos ? photos.length : 0;
+					if (!photos) {
 						continue;
 					}
-					var photos = trackPhotos.photos;
-					track.count = photos.length;
 					for (var x = 0; x < photos.length; x++) {
 						var photo = photos[x];
 						photo.trackId = trackPhotos.trackId;

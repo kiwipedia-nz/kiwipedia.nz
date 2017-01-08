@@ -1,5 +1,5 @@
 +++
-title = "fairy falls to goodfellow to old coach loop"
+title = "Fairy falls and Goodfellow track loop"
 popularity = ""
 region = "auckland"
 tracks = ["fairy-falls-track||0-62.5", "goodfellow-track", "old-coach-road-track|r|56-100"]

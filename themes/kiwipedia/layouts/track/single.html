@@ -7,19 +7,37 @@
 
         {{ partial "navbar.html" . }}
 
-        <div class="columns is-gapless">
-            <div class="column">
-                <div class="section">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-7 col-lg-5">
                     <h1 class="title">{{ .Title }}</h1>
                     {{ .Content }}
+                    {{ if isset .Params "links" }}
+                        
+
+                      <div class="card card-outline-secondary mb-3 text-center">
+                        <div class="card-block">
+                            <blockquote class="card-blockquote">
+                            <h6>External links</h6>
+                            {{ range $i, $e := .Params.links }}
+                                {{if $i}}, {{end}}
+                                {{ $link := (split $e "->") }}
+                                <a href="{{ (index $link 1) }}" target="_blank">{{ (index $link 0) }}</a>
+                            {{ end }}
+                            </blockquote>
+                          </div>
+                        </div>
+                    {{ end }}    
+                </div>
+                <div class="hidden-mffd-down col-lg-3">
+                    <track-photos></track-photos>
+                </div>
+                <div class="hidden-sffm-down col-md-5 col-lg-4">
+                    <track></track>
                 </div>
             </div>
-            <div class="column is-one-quarter">
-                <track-photos class="columns is-mobile is-gapless"></track-photos>
-            </div>
-            <div class="column is-one-third">
-                <track></track>
-            </div>
+
         </div>
 
         {{ partial "footer.html" . }}
@@ -36,7 +54,7 @@
             <script lang="javascript">
                 var trackParams = {};
                 {{ if isset .Params "region" }}
-                    trackParams['region'] = {{ .Params.region }}
+                    trackParams['region'] = {{ lower .Params.region }}
                 {{ end}}
                 {{ if isset .Params "tracks" }}
                     trackParams['trackIds'] = {{ .Params.tracks }};

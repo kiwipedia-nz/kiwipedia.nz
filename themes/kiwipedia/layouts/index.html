@@ -7,13 +7,30 @@
 
         {{ partial "navbar.html" . }}
 
-        <section id="main">
-          <div>
-            {{ range first 10 .Data.Pages }}
-                {{ .Render "summary"}}
-            {{ end }}
-          </div>
-        </section>
+        <div class="container-fluid text-center">
+
+            <div class="jumbotron">
+              <h1 class="display-3">Welcome</h1>
+              <p class="lead">Kiwipedia is a web about New Zealand - particurlarly about walking tracks and other native features. If you would like to help with creating the content, check out our about section.</p>
+            </div>
+            
+            <h2>Our latest updates</h2>
+            <div class="row cards row-eq-height">
+                {{ range first 10 .Data.Pages }}
+                    <div class="col-md-3">
+                        <div class="card">
+                          <article-image></article-image>
+                          
+                          <div class="card-block">
+                            <h4 class="card-title">{{ .Title }}</h4>
+                            <p class="card-text">{{ .Summary }}</p>
+                            <a href="{{ .Permalink }}" class="btn btn-primary">Read more</a>
+                          </div>
+                        </div>
+                    </div>
+
+                {{ end }}
+        </div>
 
         {{ partial "footer.html" . }}
 
