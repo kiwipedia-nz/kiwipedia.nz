@@ -4,7 +4,11 @@ date = "2016-12-04T21:16:44+13:00"
 
 +++
 
-Fifty years ago was stall air of New Zealand whirled by bunch of pirates broadcasting rock & roll from a rusty old boat in Hauraki gulf. At that time was the radio owned by government and these guys just started a rebellion against authorities. And all kids just loved it - and parents hated... Anyway, it changed the whole generation of the New Zealand and radio is still going strong and well these days. You can read more here:
+Fifty years ago was stall air of New Zealand whirled by bunch of pirates broadcasting rock & roll from a rusty old boat in Hauraki gulf.
+
+<!--more-->
+
+At that time was the radio owned by government and these guys just started a rebellion against authorities. And all kids just loved it - and parents hated... Anyway, it changed the whole generation of the New Zealand and radio is still going strong and well these days. You can read more here:
 
 * [Hauraki 50th](http://www.hauraki.co.nz/hauraki-50th/ "Hauraki 50th")
 * [Wikipedia: Radio Hauraki](https://en.wikipedia.org/wiki/Radio_Hauraki "Wikipedia: Radio Hauraki")

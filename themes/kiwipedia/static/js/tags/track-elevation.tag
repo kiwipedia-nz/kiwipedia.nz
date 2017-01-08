@@ -26,6 +26,31 @@
     }
     self.chart = null;
 
+    self.chartConfig = {
+      areaOpacity:.3,
+      backgroundColor:"#f5f5f5",
+      chartArea:{
+        width:"100%",
+        height:"100%",
+        top:0
+      },
+      colors:["#ff7800"],
+      focusTarget:"category",
+      hAxis:{
+        title:"Distance (km)",
+        // textPosition:"in",
+      },
+      vAxis:{
+        textPosition:"in",
+        viewWindowMode:"explicit",
+        //viewWindow:{min:r,max:o}
+      },
+      legend:"none",
+      titleFontSize:12,
+      axisFontSize:12,
+      //tooltip:{trigger:"none"}
+    }
+
     this.init = function() {
       self.trackElevations.ids = [];
       self.trackElevations.data = {};
@@ -74,12 +99,7 @@
         }
         
         // Draw the chart using the data within its DIV.
-        self.chart.draw(table, {
-          height: 150,
-          legend: 'none',
-          focusTarget: 'category',
-          titleY: 'Elevation (m)'
-        });
+        self.chart.draw(table, self.chartConfig);
       }
   	};
   	

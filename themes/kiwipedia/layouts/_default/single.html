@@ -8,12 +8,16 @@
 
         {{ partial "navbar.html" . }}
 
-        <h2 id="title">{{ .Title }}</h2>
-        
-        <article id="content">
-           {{ .Content }}
-        </article>
+        <div class="container-fluid">
 
+	        <h2 id="title">{{ .Title }}</h2>
+        
+	        <article id="content">
+	           {{ .Content }}
+	        </article>
+
+	      </div>
+        
         {{ partial "footer.html" . }}
 
     </body>

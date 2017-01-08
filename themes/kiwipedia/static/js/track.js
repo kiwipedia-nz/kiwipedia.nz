@@ -15,10 +15,9 @@ riot.tag2('track', '<div><button type="button" class="btn btn-sm pull-right" ari
 			self.tracks.data = {};
 			for (var i = 0; i < self.tracks.ids.length; i++) {
 				self.tracks.params[i].reverse = !self.tracks.params[i].reverse;
-
 			}
 			self.tracks.size = 0;
-
+			 self.tags['track-info'].init();
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 

@@ -34,12 +34,9 @@
 			self.tracks.data = {};
 			for (var i = 0; i < self.tracks.ids.length; i++) {
 				self.tracks.params[i].reverse = !self.tracks.params[i].reverse;
-				// var start = self.tracks.params[i].start;
-				// self.tracks.params[i].start = self.tracks.params[i].end;
-				// self.tracks.params[i].end = start;
 			}
 			self.tracks.size = 0;
-			// self.tags['track-info'].addTrackInfos(trackInfos);
+			 self.tags['track-info'].init();
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 	

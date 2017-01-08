@@ -1,16 +1,43 @@
 <track-info>
 
-<div if={ infos.data }>
-	<div each={ info in infos.data }>
-    distance: { info.distance }
-  </div>
+<div if={ infos.ids.length > 0 } class="text-center">
+{ getDistance() }
 </div>
 
 	<script>
   	var self = this;
-    self.infos = {
-      ids: [],
-      data: {}
+
+    this.init = function() {
+      self.infos = {
+        ids: [],
+        data: {}
+      }
+    }
+
+    this.getDistance = function() {
+      var distance = '';
+      var total = 0;
+      if (self.infos.ids.length > 1) {
+        distance += self.infos.ids.length + ' tracks - ';
+        for (var i = 0; i < self.infos.ids.length; i++) {
+          var trackDistance = self.infos.data[self.infos.ids[i]].distance;
+          total += trackDistance;
+          distance += self.toKm(trackDistance);
+          if (self.infos.ids.length > i + 2 ) {
+            distance += ', ';
+          } else if (self.infos.ids.length == i + 2 ) {
+            distance += ' and ';
+          }
+        }
+        distance += ' (total distance: ' + self.toKm(total) + ')';
+      } else {
+        distance += 'Distance ' + self.toKm(self.infos.data[self.infos.ids[0]].distance);
+      }
+      return distance;
+    }
+
+    this.toKm = function(metres) {
+      return (metres / 1000).toFixed(2) + 'km';
     }
 
     this.addTrackInfo = function(trackInfo) {
@@ -24,6 +51,8 @@
       }
     }
 
+    self.init();
+    
   </script>
 
   <style>
