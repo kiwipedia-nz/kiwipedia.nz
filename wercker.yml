@@ -17,5 +17,5 @@ ping:
   steps:
     - install-packages:
         packages: curl
-    - robinhansma/http-notify@0.1.10:
+    - mzp/http-notify@0.1.4:
         url: $WEBMASTERS_SITEMAP_URL
