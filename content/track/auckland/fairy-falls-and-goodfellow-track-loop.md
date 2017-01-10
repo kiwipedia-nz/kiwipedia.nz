@@ -1,6 +1,6 @@
 +++
 title = "Fairy falls and Goodfellow track loop"
-region = "uckland"
+region = "auckland"
 date = "2016-12-26T21:15:08+13:00"
 tracks = ["fairy-falls-track||0-62.5", "goodfellow-track", "old-coach-road-track|r|56-100"]
 links = [
