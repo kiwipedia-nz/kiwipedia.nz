@@ -13,3 +13,7 @@ deploy:
         token: $GIT_TOKEN
         domain: kiwipedia.nz 
         basedir: public
+ping:
+  steps:
+    - robinhansma/http-notify@0.1.10
+        url: $WEBMASTERS_SITEMAP_URL
