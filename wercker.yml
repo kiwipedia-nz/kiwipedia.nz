@@ -15,5 +15,7 @@ deploy:
         basedir: public
 ping:
   steps:
+    - install-packages:
+        packages: curl
     - robinhansma/http-notify@0.1.10:
         url: $WEBMASTERS_SITEMAP_URL
