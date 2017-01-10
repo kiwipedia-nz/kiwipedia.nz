@@ -8,7 +8,7 @@ popularity = ""
 aliases = ["/goodfellow-track"]
 links = [
 	"Auckland Council - Goodfellow track->http://regionalparks.aucklandcouncil.govt.nz/cascades/track/Goodfellow%20Track",
-	"Burpess for Life - Goodfellow track->http://burpeesforlife.com/goodfellow-track-cascade-kauri-regional-park/"
+	"Burpees for Life - Goodfellow track->http://burpeesforlife.com/goodfellow-track-cascade-kauri-regional-park/"
 ]
 +++
 
