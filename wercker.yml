@@ -15,5 +15,5 @@ deploy:
         basedir: public
 ping:
   steps:
-    - robinhansma/http-notify@0.1.10
+    - robinhansma/http-notify@0.1.10:
         url: $WEBMASTERS_SITEMAP_URL
