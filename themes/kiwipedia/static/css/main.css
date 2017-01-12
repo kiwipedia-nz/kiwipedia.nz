@@ -10,6 +10,10 @@ body {
 h1 {
   font-size: 2rem;
 }
+
+h6.region {
+  text-transform: capitalize;
+}
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
