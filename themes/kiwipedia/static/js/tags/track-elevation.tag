@@ -34,7 +34,7 @@
         height:"100%",
         top:0
       },
-      colors:["#ff7800"],
+      colors:["#ff1616"],
       focusTarget:"category",
       hAxis:{
         title:"Distance (km)",

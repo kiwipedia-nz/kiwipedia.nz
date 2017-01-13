@@ -2,6 +2,46 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 		var self = this;
     self.map = null;
 
+    self.availableLayers = {
+			'NZ Topo' : L.tileLayer('http://koordinates-tiles-a.global.ssl.fastly.net/services;key=41c900490dd14c50b4ccaf01082468b0/tiles/v4/layer=1231/EPSG:3857/{z}/{x}/{y}.png',
+				{
+    			maxZoom: 15,
+    			attribution: '',
+    			id: 'NZ Topomap 50'
+  			}
+  		),
+	    'Mapbox Street' : L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZHJvaWQiLCJhIjoiUGtmUjhPayJ9.ipo2p3WLD-uTan1QFYyX7g',
+	    	{
+	      	maxZoom: 15,
+	      	id: 'mapbox.streets'
+	    	}
+	    ),
+	    'Open Topo' : L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}',
+	    	{
+					maxZoom: 15,
+					attribution: 'University of Heidelberg'
+				}
+			),
+			'Satellite' : L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+				{
+					attribution: 'Esri'
+				}
+			)
+    }
+
+    self.displayLayers = ['Open Topo', 'Satellite', 'NZ Topo'];
+
+    self.layers = function() {
+    	var layers = [];
+    	var controls = {};
+    	for (var i = 0; i < self.displayLayers.length; i++) {
+    		var layer = self.availableLayers[self.displayLayers[i]];
+    		layers.push(layer);
+    		controls[self.displayLayers[i]] = layer;
+    	}
+    	return { layers : layers, controls : controls};
+    }
+
     this.init = function() {
 			if (self.map) {
 				self.map.remove();
@@ -29,10 +69,9 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 
   	this.drawMap = function() {
 	  	self.map = self.map || L.map('track-map');
-	    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZHJvaWQiLCJhIjoiUGtmUjhPayJ9.ipo2p3WLD-uTan1QFYyX7g', {
-	      maxZoom: 18,
-	      id: 'mapbox.streets'
-	    }).addTo(self.map);
+	  	var layers = self.layers();
+	    L.layerGroup(layers.layers).addTo(self.map);
+			L.control.layers(layers.controls).addTo(self.map);
 
 	    var features = [];
 	    for (var i =0; i < self.trackLocations.ids.length; i++) {
@@ -57,7 +96,7 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 
 		    features.push(L.geoJSON(geoJson, {
 		    	style: {
-	    			"color": "#ff7800",
+	    			"color": "#ff1616",
 	    			"weight": 5,
 	    			"opacity": 0.65
 	    		}
