@@ -1,2 +1,2 @@
 # kiwipedia.nz
-Kiwipedia
+http://kiwipedia.nz/
