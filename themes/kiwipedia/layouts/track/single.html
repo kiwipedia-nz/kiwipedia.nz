@@ -43,6 +43,7 @@
         {{ partial "footer.html" . }}
 
         {{ if (or (isset .Aliases 0) (isset .Params "tracks") ) }} 
+            <script src="/js/vendor/leaflet.awesome-markers.min.js"></script>
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script src="/js/track-store.js"></script>
             <script src="/js/track.js"></script>

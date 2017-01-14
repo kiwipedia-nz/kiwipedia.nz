@@ -7,12 +7,6 @@
 			</button>
 			<h4>Show all { photos.length } photos</h4>
 		</div>
-
-		<div class="row no-gutters pull-right">
-			<div each={ photo in preview } class="col-6">
-				<img src="{ photo.url }=c-w165" class="img-fluid">
-			</div>
-		</div>
 	</div>
 
 	<div if={ hasNoPhotos() }>
@@ -23,12 +17,19 @@
 		</button>
 	</div>
 
+	<div class="photos">
+		<div each="{ photo in preview }" class="photo">
+			<img src="{ photo.url }=h{ photoThumbnailHeight }" width="{ photo.thumbnailWidth }" height="{ photo.thumbnailHeight }">
+		</div>
+	</div>
+
 	<script>
 		var self = this;
 		self.region = '';
 		self.tracks = [];
 		self.photos = [];
 		self.preview = [];
+		self.photoThumbnailHeight = 165;
 
 		this.hasNoPhotos = function() {
 			if (self.photos.length > 0) {
@@ -40,44 +41,6 @@
 				}
 			}
 			return true;
-		}
-
-		/**
-		* Crazy logic to create randomized preview list where each track has the same count of pictures
-		* and they are all sorted too.
-		**/
-		this.createPreview = function(trackPhotos) {
-			if (!trackPhotos.photos) {
-				return;
-			}
-
-			var numberOfPreviewImages = 6;
-			var calculatedNumberOfPreviewImages = numberOfPreviewImages;
-
-			for (var i = 0; i < self.tracks.length; i++) {
-				if (self.tracks[i].id != trackPhotos.trackId && self.tracks[i].count > 0) {
-					calculatedNumberOfPreviewImages = Math.ceil(numberOfPreviewImages / 2);
-				}
-			}
-
-			self.preview.splice(0, calculatedNumberOfPreviewImages);
-
-			var hit = {};
-			var photos = trackPhotos.photos;
-			var i = 0;
-
-			while (i < calculatedNumberOfPreviewImages && i < photos.length) {
-				var index = photos.length > calculatedNumberOfPreviewImages ? -1 : i;
-				if (index < 0) {
-					index = Math.floor(Math.random() * photos.length);
-					if (hit[index]) {
-						continue;
-					}
-					hit[index] = true;
-				}
-				self.preview.push(photos[index]);
-				i++;
-			}
 		}
 
 		this.addTrackId = function(trackId) {
@@ -118,8 +81,12 @@
 					index += (track.count ? track.count : 0);
 				}
 			}
-			self.createPreview(trackPhotos);
-			self.update();
+			for (var i = 0; i < self.tracks.length; i++) {
+				if (typeof self.tracks[i].count == 'undefined') {
+					return;
+				}
+			}
+			self.showGrid(); 
 		};
 
 		this.refresh = function() {
@@ -128,6 +95,66 @@
 		  	RiotControl.one('track-photos-updated-' + trackId, self.onTrackPhotosUpdated);
 	  		RiotControl.trigger('track-photos-required', self.region, trackId);
 	  	}  	
+		}
+
+		this.showGrid = function() {
+			self.preview = [];
+			if (!self.photos || self.photos.length == 0) {
+				return;				
+			}
+
+			var width = $(".photos").width();
+
+			var x = 0;
+			var row = 0;
+			var start = 0;
+			var i =0;
+			var randomized = {};
+			var randomizedLength = 0;
+
+			while (row <= 2) {
+				var found = false;
+				while (!found) {
+					if (self.photos.length == randomizedLength) {
+						self.update();
+						return;
+					}
+
+					var random = Math.floor(Math.random() * self.photos.length);
+					if (!randomized[random]) {
+						found = true;
+						randomized[random] = true;
+						randomizedLength++;
+					}
+				}
+				var photo = self.photos[random]; 
+				photo.thumbnailHeight = self.photoThumbnailHeight;
+				photo.thumbnailWidth = Math.ceil(photo.width / (photo.height / photo.thumbnailHeight));
+				self.preview.push(photo);
+
+				x += photo.thumbnailWidth + 2;
+				if (x > width) {
+					var resize = width / x;
+					var height = Math.floor(self.preview[start].thumbnailHeight * resize);
+					var adjustment = 0;
+					for (start; start <= i; start++) {
+						photo = self.preview[start];
+						var ratio = photo.thumbnailWidth / photo.thumbnailHeight;
+						photo.thumbnailHeight = height;
+						photo.thumbnailWidth = Math.floor(height * ratio);
+						adjustment += photo.thumbnailWidth + 2;
+						if (start == i && adjustment < width) {
+							photo.thumbnailWidth += width - adjustment;
+						} 
+					}
+					
+					start = i + 1;
+					x = 0;
+					row++;
+				}
+				i++;
+			}
+			self.update();
 		}
 
 		self.refresh();
@@ -139,11 +166,13 @@
 			padding-top: 0.5rem;
 			display: block;
 		}
-		img {
-			padding-bottom: 4px;
-		}
 		.upload {
 			margin-top: 10px;
+		}
+		.photos .photo {
+			float: left;
+			margin: 1px;
+			font-size:0px;
 		}
 	</style>
 </track-photos>
