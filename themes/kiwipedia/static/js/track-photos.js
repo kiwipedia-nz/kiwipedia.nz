@@ -1,10 +1,26 @@
-riot.tag2('track-photos', '<div if="{photos && photos.length > 0}"><div><button type="button" class="btn btn-sm pull-right" aria-label="Left Align"><i class="fa fa-th"></i></button><h4>Show all {photos.length} photos</h4></div></div><div if="{hasNoPhotos()}"><h4>No photos available</h4> Maybe you would like to add some of yours? <button type="button" class="btn upload" aria-label="Left Align"> Upload photos <i class="fa fa-cloud-upload"></i></button></div><div class="photos"><div each="{photo in preview}" class="photo"><img riot-src="{photo.url}=h{photoThumbnailHeight}" width="{photo.thumbnailWidth}" height="{photo.thumbnailHeight}"></div></div>', 'track-photos,[data-is="track-photos"]{ padding-top: 0.5rem; display: block; } track-photos .upload,[data-is="track-photos"] .upload{ margin-top: 10px; } track-photos .photos .photo,[data-is="track-photos"] .photos .photo{ float: left; margin: 1px; font-size:0px; }', '', function(opts) {
+riot.tag2('track-photos', '<div if="{photos && photos.length > 0}"><div><button click="{toggleGallery}" type="button" class="btn btn-sm pull-right" aria-label="Left Align"><i class="fa fa-th"></i></button><h4>Show all {photos.length} photos</h4></div></div><div if="{hasNoPhotos()}"><h4>No photos available</h4> Maybe you would like to add some of yours? <button type="button" class="btn upload" aria-label="Left Align"> Upload photos <i class="fa fa-cloud-upload"></i></button></div><div class="photos"><div each="{photo in preview}" class="photo"><img riot-src="{photo.url}=h{photoThumbnailHeight}" width="{photo.thumbnailWidth}" height="{photo.thumbnailHeight}"></div></div>', 'track-photos,[data-is="track-photos"]{ padding-top: 0.5rem; display: block; } track-photos .upload,[data-is="track-photos"] .upload{ margin-top: 10px; } track-photos .photos .photo,[data-is="track-photos"] .photos .photo{ float: left; margin: 1px; font-size:0px; }', '', function(opts) {
 		var self = this;
 		self.region = '';
 		self.tracks = [];
 		self.photos = [];
 		self.preview = [];
 		self.photoThumbnailHeight = 165;
+		self.gallery = false;
+
+		this.toggleGallery = function() {
+			self.gallery = !self.gallery;
+			if (self.gallery) {
+				$(".track-description").hide();
+				$(".track-photos").hide();
+				$(".track-map").hide();
+				riot.mount('photo-gallery', { photos : self.photos });
+			} else {
+				$(".track-description").show();
+				$(".track-photos").show();
+				$(".track-map").show();
+				riot.unmount('photo-gallery');
+			}
+		}
 
 		this.hasNoPhotos = function() {
 			if (self.photos.length > 0) {

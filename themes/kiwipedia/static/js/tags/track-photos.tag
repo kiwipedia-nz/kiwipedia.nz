@@ -2,7 +2,7 @@
 
 	<div if={ photos && photos.length > 0 }>
 		<div>
-			<button type="button" class="btn btn-sm pull-right" aria-label="Left Align">
+			<button click="{ toggleGallery }" type="button" class="btn btn-sm pull-right" aria-label="Left Align">
 				<i class="fa fa-th"></i>
 			</button>
 			<h4>Show all { photos.length } photos</h4>
@@ -30,6 +30,22 @@
 		self.photos = [];
 		self.preview = [];
 		self.photoThumbnailHeight = 165;
+		self.gallery = false;
+
+		this.toggleGallery = function() {
+			self.gallery = !self.gallery;
+			if (self.gallery) {
+				$(".track-description").hide();
+				$(".track-photos").hide();
+				$(".track-map").hide();
+				riot.mount('photo-gallery', { photos : self.photos });
+			} else {
+				$(".track-description").show();
+				$(".track-photos").show();
+				$(".track-map").show();
+				riot.unmount('photo-gallery');
+			}
+		}
 
 		this.hasNoPhotos = function() {
 			if (self.photos.length > 0) {
