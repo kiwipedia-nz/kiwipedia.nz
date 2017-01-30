@@ -26,8 +26,9 @@
 		
 		reverse = function() {
 			self.tracks.reverse();
-			for (var i = 0; i < self.tracks; i++) {
+			for (var i = 0; i < self.tracks.length; i++) {
 				self.tracks[i].data = null;
+				self.tracks[i].params.reverse = !self.tracks[i].params.reverse;
 			}
 
 			self.tags['track-info'].init();
