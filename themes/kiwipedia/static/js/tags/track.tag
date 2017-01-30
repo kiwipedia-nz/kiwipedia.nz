@@ -19,24 +19,18 @@
 
 	<script>
 		var self = this;
-		self.tracks = {
-			ids: [],
-			params: [],
-			data: {},
-			size: 0
-		}
+		self.tracks = [];
 
 		canReverse = true;
 		reversed = false;
+		
 		reverse = function() {
-			self.tracks.ids.reverse();
-			self.tracks.params.reverse();
-			self.tracks.data = {};
-			for (var i = 0; i < self.tracks.ids.length; i++) {
-				self.tracks.params[i].reverse = !self.tracks.params[i].reverse;
+			self.tracks.reverse();
+			for (var i = 0; i < self.tracks; i++) {
+				self.tracks[i].data = null;
 			}
-			self.tracks.size = 0;
-			 self.tags['track-info'].init();
+
+			self.tags['track-info'].init();
 			self.tags['track-map'].init();
 			self.tags['track-elevation'].init();
 	
@@ -46,8 +40,7 @@
 
 		this.addTrackId = function(trackId) {
 			var tokens = trackId.split("|");
-			self.tracks.ids.push(tokens[0]);
-			var params = {}
+			var params = {};
 			if (tokens.length > 1) {
 				if (tokens[1] === 'r') {
 					params.reverse = true;
@@ -59,28 +52,37 @@
 					params.start = sub[0];
 					if (sub[1]) params.end = sub[1];
 			}
-			self.tracks.params[self.tracks.ids.length - 1] = params;
+			self.tracks.push({ id: trackId, trackId: tokens[0], params : params});
 		};
 
 		if (opts.trackId) {
 			self.addTrackId(opts.trackId);
 		}
+
 		if (opts.trackIds) {
 			for (var i = 0; i < opts.trackIds.length; i++) {
 				self.addTrackId(opts.trackIds[i]);
 			}
 		}
 
-		this.onTrackUpdated = function(track) {
-			self.tracks.data[track.trackId] = track;
-			self.tracks.size++;
+		this.onTrackUpdated = function(trackId, trackData) {
+			var allUpToDate = true;
+			for (var i = 0; i < self.tracks.length; i++) {
+				if (trackId == self.tracks[i].id) {
+					self.tracks[i].data = trackData;
+				}
+				if (self.tracks[i].data == null) {
+					allUpToDate = false;
+				}
+			}
 
-			if (self.tracks.size === self.tracks.ids.length) {
+			if (allUpToDate) {
 				var trackInfos = [], trackLocations = [], trackElevations = [];
-				for (var i =0; i < self.tracks.ids.length; i++) {
-					trackInfos.push(self.tracks.data[self.tracks.ids[i]].info);
-					trackLocations.push(self.tracks.data[self.tracks.ids[i]].location);
-					trackElevations.push(self.tracks.data[self.tracks.ids[i]].elevation);
+				for (var i =0; i < self.tracks.length; i++) {
+					var id = self.tracks[i].id;
+					trackInfos.push(self.addId(id, self.tracks[i].data.info));
+					trackLocations.push(self.addId(id, self.tracks[i].data.location));
+					trackElevations.push(self.addId(id, self.tracks[i].data.elevation));
 				}
 				if (trackElevations.length > 1) {
 					self.reduceTracksElevations(trackInfos, trackElevations);
@@ -91,6 +93,11 @@
 				self.update();
 			}
 		};
+
+		this.addId = function(id, object) {
+			object.id = id;
+			return object;
+		}
 
 		this.reduceTracksElevations = function(trackInfos, trackElevations) {
 			var total = 0;
@@ -114,9 +121,9 @@
 		};
 
 		this.refresh = function() {
-			for (var i =0; i < self.tracks.ids.length; i++) {
-		  	RiotControl.one('track-updated-' + self.tracks.ids[i], self.onTrackUpdated);
-	  		RiotControl.trigger('track-required', self.tracks.ids[i], self.tracks.params[i]);
+			for (var i =0; i < self.tracks.length; i++) {
+		  	RiotControl.one('track-updated-' + self.tracks[i].id, self.onTrackUpdated);
+	  		RiotControl.trigger('track-required', self.tracks[i].id, self.tracks[i].trackId, self.tracks[i].params);
 	  	}  	
 		}
 

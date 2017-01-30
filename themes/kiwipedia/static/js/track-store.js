@@ -4,7 +4,7 @@ function TrackStore() {
     var self = this;
     riot.observable(self);
 
-    self.getTrack = function(trackId, trackParams) {
+    self.getTrack = function(id, trackId, trackParams) {
         var urlParams = "";
         if (trackParams) {
             urlParams += "?";
@@ -14,13 +14,13 @@ function TrackStore() {
         }
         ajax.get('http://api-kiwipedia-nz.appspot.com/tracks/' + trackId + urlParams, function (response) {
             if (response) {
-                self.trigger('track-updated-' + trackId, response);
+                self.trigger('track-updated-' + id, id, response);
             }
         });
     }
 
-    self.on('track-required', function (trackId, trackParams) {
-        self.getTrack(trackId, trackParams);
+    self.on('track-required', function (id, trackId, trackParams) {
+        self.getTrack(id, trackId, trackParams);
     });
 
 };

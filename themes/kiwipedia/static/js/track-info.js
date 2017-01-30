@@ -35,8 +35,8 @@ riot.tag2('track-info', '<div if="{infos.ids.length > 0}" class="text-center"> {
     }
 
     this.addTrackInfo = function(trackInfo) {
-      self.infos.ids.push(trackInfo.trackId);
-      self.infos.data[trackInfo.trackId] = trackInfo;
+      self.infos.ids.push(trackInfo.id);
+      self.infos.data[trackInfo.id] = trackInfo;
     }
 
     this.addTrackInfos = function(trackInfos) {

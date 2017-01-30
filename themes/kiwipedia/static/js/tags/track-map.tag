@@ -59,8 +59,8 @@
     }
 
 		this.addTrackLocation = function(trackLocation, drawMap = true) {
-			self.trackLocations.ids.push(trackLocation.trackId);
-			self.trackLocations.data[trackLocation.trackId] = trackLocation;
+			self.trackLocations.ids.push(trackLocation.id);
+			self.trackLocations.data[trackLocation.id] = trackLocation;
 			if (drawMap) self.drawMap();
 		}
 
@@ -79,17 +79,17 @@
 
 	    var features = [];
 	    for (var i =0; i < self.trackLocations.ids.length; i++) {
-		    var trackId = self.trackLocations.ids[i];
-		    var location = self.trackLocations.data[trackId];
+		    var id = self.trackLocations.ids[i];
+		    var location = self.trackLocations.data[id];
 
 		    var geoJson = {
 		    	type: location.type,
 		    	coordinates: []
 		    }
 
-		  	RiotControl.on('track-show-marker-' + trackId, self.onShowMarker);
+		  	RiotControl.on('track-show-marker-' + id, self.onShowMarker);
 
-		  	RiotControl.on('track-remove-markers-' + trackId, function() {
+		  	RiotControl.on('track-remove-markers-' + id, function() {
 		  		// marker.remove(marker);
 		  	});
 
@@ -103,7 +103,7 @@
 		    	style: {
 	    			"color": "#ff1616",
 	    			"weight": 5,
-	    			"opacity": 0.65
+	    			"opacity": 1
 	    		}
 	    	}));
 		  }
@@ -115,7 +115,7 @@
   	this.onShowMarker = function(point) {
   		if (self.map && point) {
   			if (self.marker == null) {
-  				self.marker = L.marker([point.lat, point.lng]);	
+  				self.marker = L.marker([point.lat, point.lng]);
   				self.marker.addTo(self.map);
   			} else {
   				self.marker.setLatLng([point.lat, point.lng]);

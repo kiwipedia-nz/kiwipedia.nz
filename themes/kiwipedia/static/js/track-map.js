@@ -55,8 +55,8 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
     }
 
 		this.addTrackLocation = function(trackLocation, drawMap = true) {
-			self.trackLocations.ids.push(trackLocation.trackId);
-			self.trackLocations.data[trackLocation.trackId] = trackLocation;
+			self.trackLocations.ids.push(trackLocation.id);
+			self.trackLocations.data[trackLocation.id] = trackLocation;
 			if (drawMap) self.drawMap();
 		}
 
@@ -75,17 +75,17 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 
 	    var features = [];
 	    for (var i =0; i < self.trackLocations.ids.length; i++) {
-		    var trackId = self.trackLocations.ids[i];
-		    var location = self.trackLocations.data[trackId];
+		    var id = self.trackLocations.ids[i];
+		    var location = self.trackLocations.data[id];
 
 		    var geoJson = {
 		    	type: location.type,
 		    	coordinates: []
 		    }
 
-		  	RiotControl.on('track-show-marker-' + trackId, self.onShowMarker);
+		  	RiotControl.on('track-show-marker-' + id, self.onShowMarker);
 
-		  	RiotControl.on('track-remove-markers-' + trackId, function() {
+		  	RiotControl.on('track-remove-markers-' + id, function() {
 
 		  	});
 
@@ -98,7 +98,7 @@ riot.tag2('track-map', '<div id="track-map"></div>', 'track-map #track-map,[data
 		    	style: {
 	    			"color": "#ff1616",
 	    			"weight": 5,
-	    			"opacity": 0.65
+	    			"opacity": 1
 	    		}
 	    	}));
 		  }

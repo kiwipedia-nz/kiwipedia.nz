@@ -5,8 +5,8 @@ riot.tag2('track-elevation', '<div id="track-elevation"></div>', 'track-elevatio
       data: {},
 
       add: function(elevations) {
-        this.ids.push(elevations.trackId);
-        this.data[elevations.trackId] = elevations;
+        this.ids.push(elevations.id);
+        this.data[elevations.id] = elevations;
       },
 
       findTrackIdAndElevationPoint: function(rowNumber) {
