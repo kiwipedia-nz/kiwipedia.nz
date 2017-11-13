@@ -1,2 +1,2 @@
 # kiwipedia.nz
-http://kiwipedia.nz/
+http://www.kiwipedia.nz/
