@@ -1,0 +1,34 @@
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	padding-top: 4.5rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h6.region {
+  text-transform: capitalize;
+}
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.track-view-selector {
+	width: 70%;
+}
+
+.cards .card {
+  margin-bottom: 20px;
+}
