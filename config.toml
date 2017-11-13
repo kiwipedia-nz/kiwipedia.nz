@@ -1,4 +1,4 @@
-baseurl = "http://kiwipedia.nz/"
+baseurl = "http://www.kiwipedia.nz/"
 title = "Kiwipedia"
 languageCode = "en-nz"
 theme = "kiwipedia"
